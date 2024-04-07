@@ -1,0 +1,5 @@
+{
+    "python.pythonpath":"C:\Users\CIS\anaconda3\envs\flask_env\python.exe"
+    "python.terminal.activateEnvironment": true
+    "terminal.integrated.shell.windows": "C\\windows\\System32\\cmd.exe",
+}
