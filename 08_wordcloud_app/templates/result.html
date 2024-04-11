@@ -6,6 +6,27 @@
 <body>
   <h1>Word Cloud Result</h1>
   <img src="{{ url_for('result', filename=filename) }}" alt="Word Cloud"><br>
-  <a href="/" download>Download Word Cloud</a>
+  
+  <h2>Word Frequencies:</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Word</th>
+        <th>Frequency</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for index, row in word_freq.iterrows() %}
+      <tr>
+        <td>{{ row['Word'] }}</td>
+        <td>{{ row['Frequency'] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+  <a href="{{ url_for('download_file', filename=filename) }}" download>
+    <button>Download Word Cloud</button>
+  </a>
 </body>
 </html>

@@ -6,12 +6,19 @@ from PyPDF2 import PdfReader
 import docx
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
+import pandas as pd
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER']='uploads'
 
 # Ensure the upload folder exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+def extract_word_frequencies(text):
+    words = text.split()
+    word_freq = pd.Series(words).value_counts().reset_index()
+    word_freq.columns = ['Word', 'Frequency']
+    return word_freq
 
 def generate_and_save_wordcloud(text, format):
     wordcloud=WordCloud(width=800, height=800, background_color='white').generate(text)
@@ -46,8 +53,12 @@ def upload_file():
         
         format = request.form.get('format', 'png')
         img_path = generate_and_save_wordcloud(text, format)
+        # Extract word frequencies
+        word_freq = extract_word_frequencies(text)
 
-        return redirect(url_for('result', filename=f'wordcloud.{format}'))
+        return render_template('result.html', filename=f'wordcloud.{format}', word_freq=word_freq)
+
+        #return redirect(url_for('result', filename=f'wordcloud.{format}'))
     return render_template('index.html')
 
 @app.route('/result/<filename>')
