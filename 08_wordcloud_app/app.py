@@ -15,8 +15,10 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 def generate_and_save_wordcloud(text, format):
     wordcloud=WordCloud(width=800, height=800, background_color='white').generate(text)
-    plt.figure(figsize=(8,8))
+    plt.figure(figsize=(8,8),facecolor=None)
     plt.imshow(wordcloud)
+    plt.axis("off")
+    plt.tight_layout(pad=0)
 
     img_path = os.path.join(app.config['UPLOAD_FOLDER'], f'wordcloud.{format}')
     plt.savefig(img_path, format=format, bbox_inches='tight', pad_inches=0)
